@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+# TODO: Template for matching DB accounts listings
+issuer: Deutsche Bank Kontoauszug
+keywords:
+  - Deutsche Bank AG
+  - Kontoauszug vom
+  - Alter Saldo
+  - Frankfurt DE114103379
+options:
+  decimal_separator: ','
+  date_formats:
+    - '%d.%m.%Y'
+fields:
+  invoice_number: (Kontoauszug vom [0-9.]+ bis [0-9.]+)
+  date: Kontoauszug vom [0-9.]+ bis ([0-9.]+)
+  amount: EUR\s+([-+]\s+[0-9.,]+)
+tables:
+  - start: Buchung\s+Valuta\s+Vorgang\s+Soll\s+Haben
+    end: ^\s{40,}Deutsche\s+Bank$
+    body: (?P<book_date>[0-9.]+)\s(?P<value_date[0-9.]+)\s(?P<transaction>.*)\s{4,}(?P<amount>[-+]\s*[0-9,.]+)
